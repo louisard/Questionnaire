@@ -1097,16 +1097,16 @@ export const QUESTIONNAIRE_STEPS: StepDefinition[] = [
           { id: 'gmb_ne_sait_pas', label: 'Je ne sais pas' },
         ],
       },
-      // LA TOUTE DERNIÈRE QUESTION DU QUESTIONNAIRE : PHOTOS & DOCUMENTS
+      // LA TOUTE DERNIÈRE QUESTION DU QUESTIONNAIRE : LOGO, PHOTOS & DOCUMENTS
       {
         id: 's10_photos_ready_status',
         stepId: 10,
-        title: "As-tu des photos de tes plats, du matériel ou des documents de présentation (menus, histoire) à nous transmettre dès maintenant ?",
-        subtitle: "Photos de plats africains, buffets, matériel loué, ou documents de menus, carte, statuts ou présentation d'entreprise :",
+        title: "As-tu ton logo d'entreprise, des photos de tes plats et matériel, ou des documents de présentation (menus, histoire) à nous transmettre dès maintenant ?",
+        subtitle: "Le logo officiel de Traiteur Annie, les photos de tes spécialités et réceptions, ainsi que tes documents (menus, carte, grille tarifaire, présentation d'entreprise) :",
         type: 'single_choice',
         required: true,
         options: [
-          { id: 'photos_oui', label: 'Oui, j\'ai des photos ou documents prêts à être transmis', description: 'Je peux les transmettre dès maintenant' },
+          { id: 'photos_oui', label: 'Oui, j\'ai mon logo, des photos ou documents prêts à être transmis', description: 'Je peux transmettre mon logo et mes fichiers dès maintenant' },
           { id: 'photos_non', label: 'Non, je n\'en ai pas pour le moment' },
           { id: 'photos_plus_tard', label: 'Plus tard (je les transmettrai ultérieurement)' },
         ],
@@ -1114,8 +1114,8 @@ export const QUESTIONNAIRE_STEPS: StepDefinition[] = [
       {
         id: 's10_uploaded_photos',
         stepId: 10,
-        title: "Transmets ici tes photos et documents pour le futur site",
-        subtitle: "Sélectionne tes fichiers depuis ton téléphone ou ton ordinateur (photos de plats, buffets, matériel, documents de menu, présentation de l'entreprise...).",
+        title: "Transmets ici ton logo, tes photos et tes documents pour le futur site",
+        subtitle: "Sélectionne tes fichiers depuis ton téléphone ou ton ordinateur (logo de l'entreprise, photos de plats, buffets, matériel, documents de menu, présentation...).",
         type: 'photo_upload',
         required: false,
         dependsOn: [

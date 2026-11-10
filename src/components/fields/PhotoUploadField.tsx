@@ -116,6 +116,15 @@ export const PhotoUploadField: React.FC<PhotoUploadFieldProps> = ({
           </p>
 
           <div className="space-y-2 text-xs">
+            {/* Logo officiel */}
+            <div>
+              <span className="font-bold text-stone-700 text-[11px] block mb-1">✨ Logo de l'entreprise :</span>
+              <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                <span className="bg-red-100 text-red-900 px-2 py-0.5 rounded border border-red-200 break-all font-bold">Logo_Traiteur_Annie.png</span>
+                <span className="bg-red-100 text-red-900 px-2 py-0.5 rounded border border-red-200 break-all">Logo_Officiel.png</span>
+              </div>
+            </div>
+
             {/* Plats */}
             <div>
               <span className="font-bold text-stone-700 text-[11px] block mb-1">🍲 Plats & Spécialités :</span>
