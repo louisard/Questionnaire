@@ -8,7 +8,8 @@ import { WizardNavigation } from './components/wizard/WizardNavigation';
 import { SummaryStep } from './components/wizard/SummaryStep';
 import { generateCompletenessAudit } from './services/completenessAudit';
 import { DEMO_PREFILLED_ANSWERS } from './config/demoAnswers';
-import { SCHEMA_VERSION } from './config/constants';
+import { SCHEMA_VERSION, STORAGE_KEYS, VALID_ACCESS_TOKENS } from './config/constants';
+import { AccessGate } from './components/auth/AccessGate';
 
 export function App() {
   const {
@@ -25,12 +26,58 @@ export function App() {
     resetAll,
   } = useQuestionnaireEngine();
 
+  // Contrôle d'accès privé par lien sécurisé (?acces=... ou #acces=...)
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(() => {
+    // 1. Déjà autorisé précédemment sur ce navigateur
+    if (localStorage.getItem(STORAGE_KEYS.AUTH_GATE) === 'true') {
+      return true;
+    }
+
+    // 2. Vérification dans les paramètres d'URL (?acces=... ou ?token=...)
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryToken = urlParams.get('acces') || urlParams.get('token');
+
+      // Vérification dans le fragment hash (#acces=... ou #token=...)
+      let hashToken: string | null = null;
+      if (window.location.hash) {
+        const hashParams = new URLSearchParams(window.location.hash.replace(/^#\/?/, ''));
+        hashToken = hashParams.get('acces') || hashParams.get('token');
+      }
+
+      const candidate = (queryToken || hashToken)?.trim().toLowerCase();
+      if (candidate && VALID_ACCESS_TOKENS.some((tok) => tok.toLowerCase() === candidate)) {
+        localStorage.setItem(STORAGE_KEYS.AUTH_GATE, 'true');
+        // Nettoyage discret de l'URL pour ne pas laisser le jeton dans l'historique
+        const cleanUrl = window.location.pathname + window.location.hash.split('?')[0];
+        window.history.replaceState({}, document.title, cleanUrl);
+        return true;
+      }
+    } catch {
+      // Ignorer
+    }
+
+    return false;
+  });
+
   const [highlightedMissingIds, setHighlightedMissingIds] = useState<string[]>([]);
 
   // Calcul dynamique de l'audit de complétude
   const audit = useMemo(() => generateCompletenessAudit(state.answers), [state.answers]);
 
   const currentStepDef = QUESTIONNAIRE_STEPS.find((s) => s.id === state.currentStepId);
+
+  // Si l'accès n'est pas autorisé, afficher l'écran de verrouillage
+  if (!isAuthorized) {
+    return (
+      <AccessGate
+        onUnlock={() => {
+          localStorage.setItem(STORAGE_KEYS.AUTH_GATE, 'true');
+          setIsAuthorized(true);
+        }}
+      />
+    );
+  }
 
   const handleNext = () => {
     setHighlightedMissingIds([]);

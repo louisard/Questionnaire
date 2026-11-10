@@ -13,7 +13,14 @@ export const STORAGE_KEYS = {
   SESSION_ID: 'traiteur_annie_cadrage_session_id',
   SYNC_METADATA: 'traiteur_annie_cadrage_sync_meta_v2',
   OFFLINE_QUEUE: 'traiteur_annie_cadrage_offline_queue_v2',
+  AUTH_GATE: 'traiteur_annie_auth_token_v2',
 };
+
+// Jeton secret autorisé pour accéder au questionnaire
+export const VALID_ACCESS_TOKENS = [
+  'annie-2026-cadrage-7f9c',
+  '7f9c2a8e4b1d', // Code court de secours
+];
 
 // URL de l'API PocketBase locale ou distante (configurable via variable d'environnement Vite)
 export const POCKETBASE_DEFAULT_URL =
